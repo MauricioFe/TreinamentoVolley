@@ -40,9 +40,7 @@ public class RestActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         usuarioList = retornaUsuario(response);
-                        for (Usuario item:usuarioList) {
-                            Toast.makeText(RestActivity.this, item.getNome(), Toast.LENGTH_SHORT).show();
-                        }
+
                     }
                 }, new Response.ErrorListener() {
                     @Override
