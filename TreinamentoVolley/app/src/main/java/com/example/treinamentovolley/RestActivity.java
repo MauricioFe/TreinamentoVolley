@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,14 +40,18 @@ public class RestActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         usuarioList = retornaUsuario(response);
+                        for (Usuario item:usuarioList) {
+                            Toast.makeText(RestActivity.this, item.getNome(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Erro na requisição", error.getMessage());
+                        Log.d("Erro na requisição", error.getMessage());
                     }
                 });
         queue.add(requestGetUser);
+
     }
 
     private List<Usuario> retornaUsuario(JSONArray response) {
