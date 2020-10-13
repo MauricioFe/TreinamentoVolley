@@ -48,11 +48,9 @@ public class SoapActivity extends AppCompatActivity {
         listaProdutos = findViewById(R.id.list_view_produto);
         produtoList = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(this);
-
         StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //String resposta = response.replace("\n", "").replace("\r", "");
                 try {
                     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder builder = factory.newDocumentBuilder();
@@ -76,15 +74,11 @@ public class SoapActivity extends AppCompatActivity {
 
                     for (Produto item :
                             produtoList) {
-                        Log.d("Produtos", "onResponse: "+ item.getNome());
+                        Log.d("Produtos", "onResponse: " + item.getNome());
                     }
-
-
-
                 } catch (ParserConfigurationException | SAXException | IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
