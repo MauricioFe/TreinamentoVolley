@@ -12,21 +12,25 @@ import android.widget.Toast;
 
 import com.example.treinamentovolley.models.Usuario;
 
+import java.util.List;
+
 public class UsuarioAdapter extends BaseAdapter {
     public Context context;
+    public List<Usuario> usuarioList;
 
-    public UsuarioAdapter(Context context) {
+    public UsuarioAdapter(Context context, List<Usuario> usuarioList) {
         this.context = context;
+        this.usuarioList = usuarioList;
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return usuarioList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return usuarioList.get(position);
     }
 
     @Override

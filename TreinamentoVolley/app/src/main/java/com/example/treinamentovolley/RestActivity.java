@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -40,7 +42,8 @@ public class RestActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         usuarioList = retornaUsuario(response);
-
+                        UsuarioAdapter adapter = new UsuarioAdapter(RestActivity.this, usuarioList);
+                        listaUsuarios.setAdapter(adapter);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -50,6 +53,13 @@ public class RestActivity extends AppCompatActivity {
                 });
         queue.add(requestGetUser);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
     }
 
     private List<Usuario> retornaUsuario(JSONArray response) {
