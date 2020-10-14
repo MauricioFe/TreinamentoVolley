@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaMetadata;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.example.treinamentovolley.models.Usuario;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -59,7 +61,7 @@ public class UsuarioAdapter extends BaseAdapter {
         ImageView imgEdit = convertView.findViewById(R.id.item_list_edit);
         ImageView imgDelete = convertView.findViewById(R.id.item_list_delete);
 
-        Usuario usuario = (Usuario) getItem(position);
+        final Usuario usuario = (Usuario) getItem(position);
         txvNome.setText(usuario.getNome());
         txvTelefone.setText(usuario.getTelefone());
 
@@ -74,11 +76,12 @@ public class UsuarioAdapter extends BaseAdapter {
                             public void onClick(DialogInterface dialog, int which) {
                                 long idUsuario = getItemId(position);
                                 RequestQueue queue = Volley.newRequestQueue(context);
-                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, "", null, new Response.Listener<JSONObject>() {
+                                JsonObjectRequest deleteUsuario = new JsonObjectRequest(Request.Method.DELETE, RestActivity.URL + "/" + idUsuario, null, new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
+                                        usuarioList.remove(position);
+                                        UsuarioAdapter.this.notifyDataSetChanged();
                                         Toast.makeText(context, "Excluida com sucesso", Toast.LENGTH_SHORT).show();
-                                        notifyDataSetChanged();
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
@@ -86,17 +89,21 @@ public class UsuarioAdapter extends BaseAdapter {
                                         Log.d("Error", "Erro ao realizar a requisição ");
                                     }
                                 });
+                                queue.add(deleteUsuario);
                             }
+
                         }).show();
+
             }
         });
         imgEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "vamos editar", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, CadastrarUsuarioActivity.class);
+                intent.putExtra("usuario", (Serializable) usuario);
+                context.startActivity(intent);
             }
         });
-        this.notifyDataSetChanged();
         return convertView;
     }
 }

@@ -31,6 +31,7 @@ public class RestActivity extends AppCompatActivity {
     public static final String URL = "http://192.168.0.108:5000/api/usuarios";
     ListView listaUsuarios;
     List<Usuario> usuarioList;
+    public static UsuarioAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,16 @@ public class RestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rest);
         listaUsuarios = findViewById(R.id.list_view_usuario);
         usuarioList = new ArrayList<>();
+        AtualizaListaUsuarios();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    private void AtualizaListaUsuarios() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonArrayRequest requestGetUser =
@@ -45,7 +56,7 @@ public class RestActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         usuarioList = retornaUsuario(response);
-                        UsuarioAdapter adapter = new UsuarioAdapter(RestActivity.this, usuarioList);
+                        adapter = new UsuarioAdapter(RestActivity.this, usuarioList);
                         listaUsuarios.setAdapter(adapter);
                     }
                 }, new Response.ErrorListener() {
@@ -55,7 +66,6 @@ public class RestActivity extends AppCompatActivity {
                     }
                 });
         queue.add(requestGetUser);
-
     }
 
     @Override
