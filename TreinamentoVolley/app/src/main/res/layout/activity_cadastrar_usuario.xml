@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:text="Fernanda"
         android:hint="Nome"
         android:inputType="textPersonName" />
 
@@ -20,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:text="fefe@gmail.com"
         android:hint="Email"
         android:inputType="textEmailAddress" />
 
@@ -28,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:text="3198354684"
         android:hint="telefone"
         android:inputType="phone" />
 
@@ -36,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:text="123456"
         android:hint="Senha"
         android:inputType="textPassword" />
 

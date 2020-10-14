@@ -65,7 +65,7 @@ public class ProdutoAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(context).setTitle("Confirmação de Exclusão")
-                        .setMessage("Você realmente deseja realiza a exclusão").setNegativeButton("Não", null)
+                        .setMessage("Você realmente deseja realizar a exclusão").setNegativeButton("Não", null)
                         .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
