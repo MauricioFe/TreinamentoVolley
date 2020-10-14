@@ -1,6 +1,7 @@
 package com.example.treinamentovolley;
 
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -37,7 +38,7 @@ import javax.xml.xpath.XPathFactory;
 
 public class SoapActivity extends AppCompatActivity {
 
-    public static final String URL = "http://192.168.0.12:50210/ProdutoService.asmx/GetProdutos";
+    public static final String URL = "http://192.168.0.108:50210/ProdutoService.asmx/GetProdutos";
     List<Produto> produtoList;
     ListView listaProdutos;
 
@@ -52,39 +53,9 @@ public class SoapActivity extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //String resposta = response.replace("\n", "").replace("\r", "");
-                try {
-                    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                    DocumentBuilder builder = factory.newDocumentBuilder();
-                    Document d1 = builder.parse(new InputSource(new StringReader(response)));
-                    NodeList nList = d1.getElementsByTagName("Produtos");
-                    for (int temp = 0; temp < nList.getLength(); temp++) {
-
-                        Node nNode = nList.item(temp);
-                        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
-                            Element eElement = (Element) nNode;
-                            Produto produto = new Produto();
-                            produto.setId(Integer.parseInt(eElement.getElementsByTagName("Id").item(0).getTextContent()));
-                            produto.setPreco(Double.parseDouble(eElement.getElementsByTagName("Preco").item(0).getTextContent()));
-                            produto.setNome(eElement.getElementsByTagName("Nome").item(0).getTextContent());
-                            produto.setEstoque(Integer.parseInt(eElement.getElementsByTagName("Estoque").item(0).getTextContent()));
-                            produto.setDescricao(eElement.getElementsByTagName("Descricao").item(0).getTextContent());
-                            produtoList.add(produto);
-                        }
-                    }
-
-                    for (Produto item :
-                            produtoList) {
-                        Log.d("Produtos", "onResponse: "+ item.getNome());
-                    }
-
-
-
-                } catch (ParserConfigurationException | SAXException | IOException e) {
-                    e.printStackTrace();
-                }
-
+               produtoList = AtualizaLista(response);
+               ProdutoAdapter adapter = new ProdutoAdapter(SoapActivity.this, produtoList);
+               listaProdutos.setAdapter(adapter);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -93,5 +64,34 @@ public class SoapActivity extends AppCompatActivity {
             }
         });
         queue.add(request);
+    }
+
+    private List<Produto> AtualizaLista(String response) {
+        List<Produto> produtoList = new ArrayList<>();
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document d1 = builder.parse(new InputSource(new StringReader(response)));
+            NodeList nList = d1.getElementsByTagName("Produtos");
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+
+                Node nNode = nList.item(temp);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element eElement = (Element) nNode;
+                    Produto produto = new Produto();
+                    produto.setId(Integer.parseInt(eElement.getElementsByTagName("Id").item(0).getTextContent()));
+                    produto.setPreco(Double.parseDouble(eElement.getElementsByTagName("Preco").item(0).getTextContent()));
+                    produto.setNome(eElement.getElementsByTagName("Nome").item(0).getTextContent());
+                    produto.setEstoque(Integer.parseInt(eElement.getElementsByTagName("Estoque").item(0).getTextContent()));
+                    produto.setDescricao(eElement.getElementsByTagName("Descricao").item(0).getTextContent());
+                    produtoList.add(produto);
+                }
+            }
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+        }
+
+        return produtoList;
     }
 }
