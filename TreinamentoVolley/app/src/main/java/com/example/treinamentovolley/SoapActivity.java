@@ -43,6 +43,7 @@ public class SoapActivity extends AppCompatActivity {
     public static final String URL_DELETE = "http://192.168.0.108:50210/ProdutoService.asmx/Delete";
     List<Produto> produtoList;
     ListView listaProdutos;
+    ProdutoAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class SoapActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                produtoList = AtualizaLista(response);
-               ProdutoAdapter adapter = new ProdutoAdapter(SoapActivity.this, produtoList);
+               adapter = new ProdutoAdapter(SoapActivity.this, produtoList);
                listaProdutos.setAdapter(adapter);
             }
         }, new Response.ErrorListener() {
@@ -104,7 +105,10 @@ public class SoapActivity extends AppCompatActivity {
                     Element eElement = (Element) nNode;
                     Produto produto = new Produto();
                     produto.setId(Integer.parseInt(eElement.getElementsByTagName("Id").item(0).getTextContent()));
-                    produto.setPreco(Double.parseDouble(eElement.getElementsByTagName("Preco").item(0).getTextContent()));
+                    String inteiro = eElement.getElementsByTagName("Preco").item(0).getTextContent().substring(0, eElement.getElementsByTagName("Preco").item(0).getTextContent().length() - 2);
+                    String partedecimal = eElement.getElementsByTagName("Preco").item(0).getTextContent().substring(eElement.getElementsByTagName("Preco").item(0).getTextContent().length() - 2);
+                    double preco = Double.parseDouble(inteiro+"."+partedecimal);
+                    produto.setPreco(preco);
                     produto.setNome(eElement.getElementsByTagName("Nome").item(0).getTextContent());
                     produto.setEstoque(Integer.parseInt(eElement.getElementsByTagName("Estoque").item(0).getTextContent()));
                     produto.setDescricao(eElement.getElementsByTagName("Descricao").item(0).getTextContent());
