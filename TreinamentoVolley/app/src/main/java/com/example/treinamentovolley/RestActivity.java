@@ -70,7 +70,6 @@ public class RestActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         if (itemId == R.id.adicionar_dados){
             startActivity(new Intent(this, CadastrarUsuarioActivity.class));
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }

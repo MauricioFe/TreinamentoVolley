@@ -1,10 +1,15 @@
 package com.example.treinamentovolley;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Contacts;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -64,6 +69,22 @@ public class SoapActivity extends AppCompatActivity {
             }
         });
         queue.add(request);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.adicionar_dados){
+            startActivity(new Intent(this, CadastrarProdutoActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private List<Produto> AtualizaLista(String response) {

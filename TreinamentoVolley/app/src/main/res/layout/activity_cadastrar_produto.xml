@@ -8,7 +8,7 @@
     tools:context=".CadastrarUsuarioActivity">
 
     <EditText
-        android:id="@+id/cadastrar_usuario_txt_nome"
+        android:id="@+id/cadastrar_produto_txt_nome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -16,39 +16,28 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/cadastrar_usuario_txt_email"
+        android:id="@+id/cadastrar_produto_txt_preco"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress" />
+        android:hint="Preço"
+        android:inputType="numberDecimal" />
 
     <EditText
-        android:id="@+id/cadastrar_usuario_txt_telefone"
+        android:id="@+id/cadastrar_produto_txt_estoque"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="telefone"
-        android:inputType="phone" />
+        android:hint="Estoque"
+        android:inputType="number" />
 
     <EditText
-        android:id="@+id/cadastrar_usuario_txt_senha"
+        android:id="@+id/cadastrar_produto_txt_descricao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Senha"
-        android:inputType="textPassword" />
-
-    <TextView
-        android:id="@+id/cadastrar_usuario_lbl_funcao"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Escolha uma função" />
-
-    <Spinner
-        android:id="@+id/cadastrar_usuario_spn_funcao"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:hint="Descricao"
+        android:inputType="textMultiLine" />
 
     <Button
         android:id="@+id/cadastrar_usuario_btn_salvar"
