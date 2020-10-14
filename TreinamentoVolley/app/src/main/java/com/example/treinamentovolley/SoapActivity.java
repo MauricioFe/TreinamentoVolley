@@ -2,7 +2,6 @@ package com.example.treinamentovolley;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Contacts;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,7 +25,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -36,14 +34,13 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 public class SoapActivity extends AppCompatActivity {
 
-    public static final String URL = "http://192.168.0.108:50210/ProdutoService.asmx/GetProdutos";
+    public static final String URL_GET = "http://192.168.0.108:50210/ProdutoService.asmx/GetProdutos";
+    public static final String URL_POST = "http://192.168.0.108:50210/ProdutoService.asmx/Post";
+    public static final String URL_PUT = "http://192.168.0.108:50210/ProdutoService.asmx/Put";
+    public static final String URL_DELETE = "http://192.168.0.108:50210/ProdutoService.asmx/Delete";
     List<Produto> produtoList;
     ListView listaProdutos;
 
@@ -55,7 +52,7 @@ public class SoapActivity extends AppCompatActivity {
         produtoList = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, URL_GET, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                produtoList = AtualizaLista(response);
@@ -82,7 +79,13 @@ public class SoapActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.adicionar_dados){
-            startActivity(new Intent(this, CadastrarProdutoActivity.class));
+            int idProduto = 0 ;
+            for (Produto produto:produtoList) {
+                idProduto  = produto.getId();
+            }
+            Intent intent = new Intent(this, CadastrarProdutoActivity.class);
+            intent.putExtra("idProduto", idProduto);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -98,7 +101,6 @@ public class SoapActivity extends AppCompatActivity {
 
                 Node nNode = nList.item(temp);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
                     Element eElement = (Element) nNode;
                     Produto produto = new Produto();
                     produto.setId(Integer.parseInt(eElement.getElementsByTagName("Id").item(0).getTextContent()));

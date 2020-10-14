@@ -51,6 +51,10 @@ public class CadastrarUsuarioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cadastrar_usuario);
         inicializaComponentes();
         capturaDadosSpinner();
+        recebeDadosIntent();
+    }
+
+    private void recebeDadosIntent() {
         Intent intent = getIntent();
         if (intent.hasExtra("usuario")) {
             usuario = (Usuario) intent.getSerializableExtra("usuario");

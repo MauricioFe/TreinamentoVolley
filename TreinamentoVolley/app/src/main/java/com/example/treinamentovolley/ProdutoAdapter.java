@@ -53,7 +53,7 @@ public class ProdutoAdapter extends BaseAdapter {
         Produto produto = (Produto) getItem(position);
 
         txvNome.setText(produto.getNome());
-        txvPreco.setText(String.format("%s2", produto.getPreco()));
+        txvPreco.setText(""+ produto.getPreco());
         imgEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

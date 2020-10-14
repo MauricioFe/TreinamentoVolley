@@ -40,7 +40,7 @@
         android:inputType="textMultiLine" />
 
     <Button
-        android:id="@+id/cadastrar_usuario_btn_salvar"
+        android:id="@+id/cadastrar_produto_btn_salvar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Salvar" />
