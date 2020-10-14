@@ -49,10 +49,62 @@ public class CadastrarUsuarioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar_usuario);
-        usuario = new Usuario();
         inicializaComponentes();
         capturaDadosSpinner();
-        onClickSalvar();
+        Intent intent = getIntent();
+        if (intent.hasExtra("usuario")) {
+            usuario = (Usuario) intent.getSerializableExtra("usuario");
+            assert usuario != null;
+            preencheComponentesEdit(usuario);
+            onClickEditar();
+        } else {
+            usuario = new Usuario();
+            onClickSalvar();
+        }
+    }
+
+    private void preencheComponentesEdit(Usuario usuario) {
+        edtNome.setText(usuario.getNome());
+        edtTelefone.setText(usuario.getTelefone());
+        edtEmail.setText(usuario.getEmail());
+        edtSenha.setText(usuario.getSenha());
+    }
+
+    private void onClickEditar() {
+        btnSalvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edtNome.getText().length() > 0 && edtEmail.getText().length() > 0 &&
+                        edtTelefone.getText().length() > 0 && edtSenha.getText().length() > 0) {
+                    preencheUsuario();
+                    editarUsuario();
+                }else {
+                    new AlertDialog.Builder(CadastrarUsuarioActivity.this).setNeutralButton("Ok", null)
+                            .setMessage("Preecha todos os campos").setTitle("Erro a cadastrar um usuário").show();
+                }
+            }
+        });
+
+    }
+
+    private void editarUsuario() {
+        JSONObject jsonObject = getJsonObject(usuario);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, RestActivity.URL + "/" + usuario.getId(),
+                jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(CadastrarUsuarioActivity.this, "Editado com sucesso", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), RestActivity.class));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Erro", "Deu errado meu chapa");
+            }
+        });
+
+        queue.add(putRequest);
     }
 
     private void onClickSalvar() {
@@ -63,7 +115,7 @@ public class CadastrarUsuarioActivity extends AppCompatActivity {
                         edtTelefone.getText().length() > 0 && edtSenha.getText().length() > 0) {
                     preencheUsuario();
                     salvarUsuario(usuario);
-                }else  {
+                } else {
                     new AlertDialog.Builder(CadastrarUsuarioActivity.this).setNeutralButton("Ok", null)
                             .setMessage("Preecha todos os campos").setTitle("Erro a cadastrar um usuário").show();
                 }
@@ -75,7 +127,7 @@ public class CadastrarUsuarioActivity extends AppCompatActivity {
         List<String> funcaoList = new ArrayList<>();
         funcaoList.add("Administrador");
         funcaoList.add("Usuario");
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item,funcaoList );
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, funcaoList);
         spnFuncao.setAdapter(adapter);
         spnFuncao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -110,16 +162,7 @@ public class CadastrarUsuarioActivity extends AppCompatActivity {
     }
 
     private void salvarUsuario(final Usuario usuario) {
-        JSONObject params = new JSONObject();
-        try {
-            params.put("nome", usuario.getNome());
-            params.put("telefone", usuario.getTelefone());
-            params.put("email", usuario.getEmail());
-            params.put("senha", usuario.getSenha());
-            params.put("funcaoId", usuario.getFuncaoId());
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
+        JSONObject params = getJsonObject(usuario);
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonObjectRequest requestPostUser =
                 new JsonObjectRequest(Request.Method.POST, RestActivity.URL, params, new Response.Listener<JSONObject>() {
@@ -133,9 +176,23 @@ public class CadastrarUsuarioActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(CadastrarUsuarioActivity.this, "erro", Toast.LENGTH_SHORT).show();
                         VolleyLog.d("TAG", "Error: " + error.getMessage());
-                        Log.d("TAG", ""+error.getMessage()+","+error.toString());
+                        Log.d("TAG", "" + error.getMessage() + "," + error.toString());
                     }
                 });
         queue.add(requestPostUser);
+    }
+
+    private JSONObject getJsonObject(Usuario usuario) {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("nome", usuario.getNome());
+            params.put("telefone", usuario.getTelefone());
+            params.put("email", usuario.getEmail());
+            params.put("senha", usuario.getSenha());
+            params.put("funcaoId", usuario.getFuncaoId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return params;
     }
 }

@@ -1,11 +1,9 @@
 package com.example.treinamentovolley;
 
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.MediaMetadata;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +23,6 @@ import com.example.treinamentovolley.models.Usuario;
 
 import org.json.JSONObject;
 
-import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.util.List;
 
 public class UsuarioAdapter extends BaseAdapter {
@@ -100,7 +96,7 @@ public class UsuarioAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CadastrarUsuarioActivity.class);
-                intent.putExtra("usuario", (Serializable) usuario);
+                intent.putExtra("usuario", usuario);
                 context.startActivity(intent);
             }
         });
