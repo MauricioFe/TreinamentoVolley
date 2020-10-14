@@ -1,11 +1,14 @@
 package com.example.treinamentovolley;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -60,6 +63,16 @@ public class RestActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.adicionar_dados){
+            startActivity(new Intent(this, CadastrarUsuarioActivity.class));
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private List<Usuario> retornaUsuario(JSONArray response) {

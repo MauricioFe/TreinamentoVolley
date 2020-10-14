@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CadastrarUsuarioActivity">
+
+    <EditText
+        android:id="@+id/cadastrar_usuario_txt_nome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Nome"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/cadastrar_usuario_txt_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/cadastrar_usuario_txt_telefone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="telefone"
+        android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/cadastrar_usuario_txt_senha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Senha"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/cadastrar_usuario_lbl_funcao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Escolha uma função" />
+
+    <Spinner
+        android:id="@+id/cadastrar_usuario_spn_funcao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

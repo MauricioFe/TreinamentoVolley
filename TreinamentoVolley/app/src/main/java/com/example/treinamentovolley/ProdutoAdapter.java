@@ -1,6 +1,8 @@
 package com.example.treinamentovolley;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,8 @@ import com.example.treinamentovolley.models.Produto;
 
 import java.io.PipedOutputStream;
 import java.util.List;
+
+import javax.crypto.AEADBadTagException;
 
 public class ProdutoAdapter extends BaseAdapter {
     private Context context;
@@ -60,7 +64,15 @@ public class ProdutoAdapter extends BaseAdapter {
         imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Deletando", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(context).setTitle("Confirmação de Exclusão")
+                        .setMessage("Você realmente deseja realiza a exclusão").setNegativeButton("Não", null)
+                        .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(context, "Deletado com sucesso", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
             }
         });
         return convertView;
