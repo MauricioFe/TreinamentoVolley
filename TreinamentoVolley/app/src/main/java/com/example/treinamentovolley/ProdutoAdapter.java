@@ -3,6 +3,7 @@ package com.example.treinamentovolley;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +68,9 @@ public class ProdutoAdapter extends BaseAdapter {
         imgEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Editando", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, CadastrarProdutoActivity.class);
+                intent.putExtra("produto", produto);
+                context.startActivity(intent);
             }
         });
 

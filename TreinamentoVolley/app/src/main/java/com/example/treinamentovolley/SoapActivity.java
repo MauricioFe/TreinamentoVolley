@@ -84,6 +84,7 @@ public class SoapActivity extends AppCompatActivity {
             for (Produto produto:produtoList) {
                 idProduto  = produto.getId();
             }
+            idProduto++;
             Intent intent = new Intent(this, CadastrarProdutoActivity.class);
             intent.putExtra("idProduto", idProduto);
             startActivity(intent);
