@@ -100,7 +100,6 @@ public class SoapActivity extends AppCompatActivity {
             Document d1 = builder.parse(new InputSource(new StringReader(response)));
             NodeList nList = d1.getElementsByTagName("Produtos");
             for (int temp = 0; temp < nList.getLength(); temp++) {
-
                 Node nNode = nList.item(temp);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;

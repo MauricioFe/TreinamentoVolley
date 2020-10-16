@@ -50,7 +50,6 @@ public class RestActivity extends AppCompatActivity {
 
     private void AtualizaListaUsuarios() {
         RequestQueue queue = Volley.newRequestQueue(this);
-
         JsonArrayRequest requestGetUser =
                 new JsonArrayRequest(Request.Method.GET, URL, null, new Response.Listener<JSONArray>() {
                     @Override
